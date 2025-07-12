@@ -1,6 +1,3 @@
-That's a great initiative, Praveen! Daily hands-on YAML practice will solidify your understanding of Kubernetes, Docker, Terraform, Ansible, and DevOps workflows.
-
-Below is a **30-day YAML daily practice plan**, progressing from **basic to advanced**. Each task includes writing YAML files and may involve Kubernetes, Docker Compose, Ansible Playbooks, or Terraform-style HCL-to-YAML comparisons.
 
 ---
 
