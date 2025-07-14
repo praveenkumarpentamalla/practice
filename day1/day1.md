@@ -1,9 +1,8 @@
----
 
-Creating Create a Dockerfile for NGINX, 
 
-----
 ## Dockerfile: Create a Dockerfile for NGINX,  Run a single NGINX container, Deploy a simple Pod running NGINX, Write a playbook to install NGINX on Ubuntu, and Write YAML-style HCL to create an AWS EC2 instance
+
+Creating Create a Dockerfile for NGINX
 
 FROM nginx:latest
 
@@ -17,7 +16,7 @@ EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off"] 
 
----
+
 
 ## Docker Compose: Run a single NGINX container.
 
@@ -40,7 +39,7 @@ networks:
     drive: bridge
 
 
----
+
 
 ## Deploy a simple Pod running NGINX.
 
@@ -75,7 +74,7 @@ inventory.ini
 
 playbook.yaml
 
----
+
 - name: Installing Nginx on Ubuntu
   hosts: web-app
   become: true
@@ -86,7 +85,7 @@ playbook.yaml
         state: present
         update_cache: yes
 
----
+
 ## create an AWS EC2 instance.
 
 provider "aws" {
