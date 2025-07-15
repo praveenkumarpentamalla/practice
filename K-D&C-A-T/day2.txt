@@ -1,0 +1,161 @@
+
+** Dockerfile: Serve a static HTML file using NGINX. **
+
+FROM nginx:alpine
+
+RUN sudo rm -f /usr/share/nginx/html/*
+
+COPY index.html /usr/share/nginx/html/*
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off"]
+
+** Docker Compose: Mount static site using volume. **
+
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx-container
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+    networks:
+      - nginx-network
+
+networks:
+  nginx-network:
+    driver: bridge
+
+
+** Kubernetes: Create a Deployment with 2 replicas of NGINX.  **
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+  type: ClusterIP
+
+** Copy a static site to server and restart NGINX. **
+
+inventort.ini
+[nginx-app]
+
+13.56.67.09
+
+
+playbook.yml
+
+---
+- name: Copy a static site to server and restart NGINX
+  hosts: nginx-app
+  become: true
+
+  tasks:
+    - name: Copy static HTML files to NGINX web root
+      copy:
+        src: html/
+        dest: /usr/share/nginx/html/
+        owner: root
+        group: root
+        mode: '0644'
+        recursive: yes
+
+    - name: Restart NGINX service
+      service:
+        name: nginx
+        state: restarted
+
+** Create an S3 bucket for static hosting. **
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resorce "aws_s3_bucket" "static_site" {
+  bucket = "test.com"
+  force_destroy = true
+
+  tags = {
+    Name = "staticSite"
+    Environment = "Dev"
+  }
+}
+
+
+resource "aws_s3_bucket_website_configuration" "static_site_config" {
+  bucket = aws_s3_static_site.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  errror_document {
+    key = "error.html"
+  }
+}
+
+
+resource "aws_s3_bucket_public_acccess_block" "public_access" {
+  bucket = aws_s3_bucket.static_site.id
+
+  block_public_acls = flase
+  block_public_policy = flase
+  ingore_public_acls = flase
+  restrict_public_buckets = flase
+}
+
+resource "aws_s3_bucket_policy" "allow_public_read" {
+  bucket = aws_s3_bucket.static_site.id
+
+
+  policy = jsoncode({
+    Version = "2012-10-17"
+    Statement = [
+    {
+      sid = "PublicReadGetObject"
+      Effect = "Allow"
+      Principal = "*"
+      Action = "s3.GetObjetcs"
+      Resource = "${aws_s3_bucket.static_site.arn}/*"
+}
+
+
+
+
+
+
+
+    
