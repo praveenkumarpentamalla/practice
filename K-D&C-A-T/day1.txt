@@ -61,7 +61,7 @@ spec:
           cpu: 250m
         limits:
           memory: 128Mi
-          cpu: 500i
+          cpu: 500m
 
 ## Write a playbook to install NGINX on Ubuntu.
 
