@@ -20,6 +20,8 @@ spec:
   containers:
   - name: app
     image: nginx:1.27
+    ports:
+        - containerPort: 80
 ```
 
 ---
