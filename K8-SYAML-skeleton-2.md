@@ -360,7 +360,7 @@ spec:
 
 
 ----
-
+```yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -388,7 +388,7 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: manual
-
+```
 
 ----
 
