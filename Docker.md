@@ -1144,7 +1144,7 @@ $ sudo docker swarm join-token worker
 
 Note: Copy the token and execute in all worker nodes with sudo permission
 
-Ex: sudo docker swarm join --token SWMTKN-1-4pkn4fiwm09haue0v633s6snitq693p1h7d1774c8y0hfl9yz9-8l7vptikm0x29shtkhn0ki8wz 172.31.37.100:2377
+Ex: sudo docker swarm join --token <token> 172.31.37.100:2377
 
 
 Q) what is docker swarm manager quarm?
